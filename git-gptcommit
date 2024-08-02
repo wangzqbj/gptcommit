@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import sh
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.pydantic_v1 import BaseModel, Field
+
+myself = sys.argv[0]
+
+git = sh.git.bake("--no-pager")
+groot = git("rev-parse", "--show-toplevel").rstrip("\n")
+
+prepare_msg_hook = f"{groot}/.git/hooks/prepare-commit-msg"
+
+if os.path.basename(myself) == "git-gptcommit":
+    if len(sys.argv) == 1:
+        os.system("__GPTCOMMIT=1 git commit -s")
+    command = sys.argv[1]
+    if command == "init": 
+        if os.path.exists(prepare_msg_hook):
+            print(f"{prepare_msg_hook} exists")
+            exit(0)
+        sh.ln("-sf", myself, prepare_msg_hook)
+    exit(0)
+
+if not os.getenv("__GPTCOMMIT"):
+    exit(0)
+
+commit_msg_file =  sys.argv[1]
+diff = git.diff("--cached")
+
+class GitMessage(BaseModel):
+    subject: str = Field(description="The subject of the git message")
+    message_body: list = Field(
+        description="The message body of the git message")
+
+prompt_template = """
+根据patch生成git commit message, 要求
+1. 需要生成subject和message body
+2. subject简要描述patch中的主要修改点
+3. message_body以列表的形式列出所有修改点
+
+patch如下:
+========= patch start ==============
+{patch}
+========= patch end ================
+
+respond in JSON with `subject` and `message_body` keys"
+"""
+prompt = PromptTemplate(
+    input_variables=["patch"], template=prompt_template
+)
+
+llm = ChatOpenAI(
+    model="gpt-3.5-turbo").with_structured_output(GitMessage, method="json_mode")
+chain = prompt | llm
+
+output = chain.invoke(diff)
+subject = output.subject
+message = '\n'.join('- ' + s for s in output.message_body)
+commit_msg = f"{subject}\n\n{message}"
+
+content = None
+with open(commit_msg_file) as fd:
+    content = fd.read()
+
+msg = commit_msg + content
+
+with open(commit_msg_file, "w") as fd:
+    fd.write(msg)
