@@ -24,7 +24,7 @@ class GitMessage(BaseModel):
 
 prompt_template = """
 你是一个专家级程序员，能够写出清晰易懂的commit message
-写出的commit message需要包含subject和message_body两个部分
+用英文写commit message, 需要包含subject和message_body两个部分
 其中对于subject， 要求如下:
 1. 综合考虑各个被修改的文件，根据Linux kernel git commit style guide生成subject
 2. 只产生一行，不要超过50个字符
