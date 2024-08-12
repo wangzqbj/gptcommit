@@ -12,20 +12,7 @@ myself = sys.argv[0]
 git = sh.git.bake("--no-pager")
 groot = git("rev-parse", "--show-toplevel").rstrip("\n")
 
-prepare_msg_hook = f"{groot}/.git/hooks/prepare-commit-msg"
-
-if os.path.basename(myself) == "git-gptcommit":
-    if len(sys.argv) == 1:
-        os.system("__GPTCOMMIT=1 git commit -s")
-    command = sys.argv[1]
-    if command == "init": 
-        if os.path.exists(prepare_msg_hook):
-            print(f"{prepare_msg_hook} exists")
-            exit(0)
-        sh.ln("-sf", myself, prepare_msg_hook)
-    exit(0)
-
-if not os.getenv("__GPTCOMMIT"):
+if not os.getenv("GPTCOMMIT"):
     exit(0)
 
 commit_msg_file =  sys.argv[1]
