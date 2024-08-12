@@ -25,6 +25,10 @@ GPTCOMMIT=1 git commit
 
 将 prepare-commit-msg 文件拷贝到工程的 .git/hooks/ 目录下
 
+```
+pip install -r requirements.txt
+```
+
 ## OpenAI 配置
 
 需要在环境变量中配置`OPENAI_API_KEY`，如果你采用聚合代理的方式访问OpenAI, 则需要另外配置`OPENAI_API_BASE`
