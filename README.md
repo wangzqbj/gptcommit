@@ -24,3 +24,12 @@ GPTCOMMIT=1 git commit
 ## 安装方法
 
 将 prepare-commit-msg 文件拷贝到工程的 .git/hooks/ 目录下
+
+## OpenAI 配置
+
+需要在环境变量中配置`OPENAI_API_KEY`，如果你采用聚合代理的方式访问OpenAI, 则需要另外配置`OPENAI_API_BASE`
+
+```sh
+export OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+export OPENAI_API_BASE="https://xxxxxxx"
+```
