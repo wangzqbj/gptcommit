@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import sys
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.pydantic_v1 import BaseModel, Field
+
+commit_msg = sys.stdin.read()
+
+class TranslatedText(BaseModel):
+    translatedText: str = Field(description="The Translated text")
+
+prompt_template = """
+你是一个掌握多国语言的专家级程序员，能够熟练的书写清晰易懂的
+git commit message请帮我将下面的commit message翻译成英文:
+```
+{commit_msg}
+```
+
+以json的形式返回, 包含`translatedText`字段
+"""
+prompt = PromptTemplate(
+    input_variables=["commit_msg"], template=prompt_template
+)
+
+llm = ChatOpenAI(
+    model="gpt-3.5-turbo").with_structured_output(TranslatedText, method="json_mode")
+chain = prompt | llm
+
+output = chain.invoke(commit_msg)
+translatedText = output.translatedText
+print(translatedText)
