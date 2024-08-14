@@ -42,15 +42,3 @@ The `OPENAI_API_KEY` needs to be configured in the environment variables
 ```sh
 export OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
-
-## translate-commit
-
-This is a tool that uses ChatGPT to translate commit messages into English. It
-can be placed in `~/.local/bin`, and can be invoked in Vim using the command 
-below.
-
-```sh
-:'<,'>!translate-commit
-```
-
-[![asciicast](https://asciinema.org/a/nIxUJa2yginj8zwnjTqwyli0a.svg)](https://asciinema.org/a/nIxUJa2yginj8zwnjTqwyli0a)
