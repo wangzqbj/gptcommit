@@ -11,8 +11,8 @@ class TranslatedText(BaseModel):
     translatedText: str = Field(description="The Translated text")
 
 prompt_template = """
-你是一个掌握多国语言的专家级程序员，能够熟练的书写清晰易懂的
-git commit message请帮我将下面的commit message翻译成英文:
+你是一个北美的专家级程序员，能够熟练的书写清晰易懂的 git commit message请帮我将
+下面的commit message翻译成英文,并检查是行文是否流畅，简洁
 ```
 {commit_msg}
 ```
