@@ -2,47 +2,52 @@
 
 ## prepare-commit-msg
 
-有些时候，代码中可能会有一些临时提交，并不需要（或者时机未到)推送到上游（内部开发
-分支，开源社区），这种时候，`commit message`往往是写给代码作者临时看的，很多情况下
-代码作者本人会比较敷衍的写一点`commit message`，这种时候，不如将commit message委托给
-AI生成
+Sometimes, there may be some temporary commits in the code that do not need to
+be pushed to upstream (internal development branches or open-source community)
+yet. In these cases, the 'commit message' is often written for the author's
+temporary reference, and many times the author may write a rather hasty 'commit
+message'. In such situations, it might be better to delegate the task of
+generating commit messages to AI.
 
-这是一个prepare-commit-msg的git hook脚本， 'git hook'特性可以使git在执行某些命
-令时，调用一些自定义的脚本，本脚本是一个“提前准备commit message"的hook, 可以在
-执行`git commit`后利用 AI(chatgpt)自动准备 `commit message`，使得在进入交互模式
-之前，便准备好`commit message`，操作示例如
-下：
+This is a prepare-commit-msg Git hook script. The 'git hook' feature allows Git
+to invoke custom scripts when executing certain commands. This script serves as
+a 'preparation for commit messages' hook, which automatically generates a
+commit message using AI (ChatGPT) after executing `git commit`, ensuring that
+the commit message is ready before entering interactive mode. Example of usage:
 
 [![gptcommit](https://asciinema.org/a/AcMRbMhggwfrx3pz4CLmwOLla.svg)](https://asciinema.org/a/AcMRbMhggwfrx3pz4CLmwOLla)
 
-### 使用方法
+### Usage
 
 ```sh
 GPTCOMMIT=1 git commit
 ```
-只有在主动的传入`GPTCOMMIT`环境变量后，本脚本才会用AI生成`commit message`，也就
-是说，若要想偷懒利用AI自助产生`commit message`， 命令是更长的，这是符合预期的😀。
+Only when the `GPTCOMMIT` environment variable is actively passed in, will this
+script use AI to generate the `commit message`, which means, if you want to be
+lazy and use AI to automatically generate `commit message`, the command is
+longer, this is as expected 😀.
 
-### 安装方法
+### Installation
 
-将 prepare-commit-msg 文件拷贝到工程的 .git/hooks/ 目录下
+Copy the prepare-commit-msg file to the project's .git/hooks/ directory.
 
 ```
 pip install -r requirements.txt
 ```
 
-### OpenAI 配置
+### OpenAI Configuration
 
-需要在环境变量中配置`OPENAI_API_KEY`，如果你采用聚合代理的方式访问OpenAI, 则需要另外配置`OPENAI_API_BASE`
+The `OPENAI_API_KEY` needs to be configured in the environment variables
 
 ```sh
 export OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-export OPENAI_API_BASE="https://xxxxxxx"
 ```
 
 ## translate-commit
 
-这是一个利用chatgpt将`commit message`翻译成英文的工具，可以将其放置到`~/.local/bin`， 在vim中可以采用下面的方法调用
+This is a tool that uses ChatGPT to translate commit messages into English. It
+can be placed in `~/.local/bin`, and can be invoked in Vim using the command 
+below.
 
 ```sh
 :'<,'>!translate-commit
