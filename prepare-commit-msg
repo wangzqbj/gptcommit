@@ -23,23 +23,25 @@ class GitMessage(BaseModel):
         description="The message body of the git message")
 
 prompt_template = """
-你是一个专家级程序员，能够写出清晰易懂的commit message
-用英文写commit message, 需要包含subject和message_body两个部分
-其中对于subject， 要求如下:
-1. 综合考虑各个被修改的文件，根据Linux kernel git commit style guide生成subject
-2. 只产生一行，不要超过50个字符
-3. 首字母大写
+You are an expert programmer writing a commit message.
+Write a commit message following the Linux kernel git commit style, including a subject and message body.
+The requirements for the subject are as follows:
+1. one line and no more than 50 characters
+2. The first letter should be capitalized.
 
-对于message_body, 要求如下
-1. 总结各个文件的修改，每个总结一行，以‘-’字符开头
-2. 每个总结都要准确，如果怀疑不准确，则不输出
-3. 每个总结都要清晰，易懂
-
+For the message body, the requirements are as follows:
+1. Write every summary comment in a new line.
+2. Comments should be in a bullet point list, each line starting with a `-`.
+3. The summary should not include comments copied from the code.
+4. The output should be easily readable. When in doubt, write fewer comments and not more. Do not output comments that
+simply repeat the contents of the file.
+5. Readability is top priority. Write only the most important comments about the diff.
+ 
 ========= patch start ==============
 {patch}
 ========= patch end ================
 
-以json的形式返回，包含`subject`和`message_body`字段，message_body字段格式为字符串
+Respond in JSON with `subject` and `message_body` keys, and the message_body should be a string"
 """
 prompt = PromptTemplate(
     input_variables=["patch"], template=prompt_template
