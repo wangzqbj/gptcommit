@@ -22,6 +22,7 @@ class GitMessage(BaseModel):
     message_body: str = Field(
         description="The message body of the git message")
 
+# ref https://github.com/zurawiki/gptcommit/tree/main/prompts
 prompt_template = """
 You are an expert programmer writing a commit message.
 Write a commit message following the Linux kernel git commit style, including a subject and message body.
