@@ -1,5 +1,25 @@
 # GPT Commit
 
+## 工作流演示
+
+在日常开发工作中，可能会有一些临时的未完全完成的代码，我们期望暂存到本地（以便回溯），而不提交到开发库，这个时候，我们就有可能多次
+执行`git commit`, 而这种回溯往往都是即时的，这种情况下，我们一般不会“认真”写commit message, 而是简单几句话略过，但这种“不认真”的commit message可以借助AI来生成，另外，假如我们想要把自己的代码推送到开源社区的话，往往还需要把commit message翻译成英文，这个过程也可以借助AI
+
+下面我们来看一下借助AI前后的操作演示, 从演示中可以看到，AI生成的commit message是比“不认真”的commit message要好的
+
+### 操作演示
+
+#### without AI
+
+[![asciicast](https://asciinema.org/a/g3lJ9xOBm50V3GORK2odb8AhT.svg)](https://asciinema.org/a/g3lJ9xOBm50V3GORK2odb8AhT)
+
+
+#### with AI
+
+[![asciicast](https://asciinema.org/a/DX554ffxBoD4TH4WGjuagwPwU.svg)](https://asciinema.org/a/DX554ffxBoD4TH4WGjuagwPwU)
+
+
+
 ## prepare-commit-msg
 
 有些时候，代码中可能会有一些临时提交，并不需要（或者时机未到)推送到上游（内部开发
@@ -49,3 +69,4 @@ export OPENAI_API_BASE="https://xxxxxxx"
 ```
 
 [![asciicast](https://asciinema.org/a/nIxUJa2yginj8zwnjTqwyli0a.svg)](https://asciinema.org/a/nIxUJa2yginj8zwnjTqwyli0a)
+
